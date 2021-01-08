@@ -1,37 +1,38 @@
 from PyMySQL import PyMySQL
-
+from Create import *
+from Operation import *
 class Library(PyMySQL):
     def __init__(self, host, user, pwd):
         PyMySQL.__init__(self, host, user, pwd)
         self._init_database()
         self._init_table()
-        self.purchase_book()
+        self.insert_new_book()
+        # self.purchase_book()
         self._quit()
 
     def _init_database(self):
-        self.cursor.execute('CREATE DATABASE IF NOT EXISTS BookSale DEFAULT CHARSET utf8 COLLATE utf8_general_ci;')
-        self.cursor.execute('use booksale;')
+        self.cursor.execute(CREATE_DATABASE)
+        self.cursor.execute(USE_DATABASE)
 
     def _init_table(self):
-        sql = """CREATE TABLE IF NOT EXISTS `book` (
-        	  `id` int(11) NOT NULL AUTO_INCREMENT,
-        	  `name` varchar(255) NOT NULL,
-        	  `store` int(11) NOT NULL,
-        	  PRIMARY KEY (`id`)
-        	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=0"""
-        # #   表的创建
-        # query = "create table "
-        self.cursor.execute(sql)
+        self.cursor.execute(CREAT_TABLE_BOOK)
+        self.cursor.execute(CREAT_TABLE_SUPPLIER)
+        self.cursor.execute(CREAT_TABLE_SUPPLIER_PRICE)
+        self.cursor.execute(CREAT_TABLE_SUPPLY_LIST)
+        self.cursor.execute(CREAT_TABLE_STOREHOUSE)
+        self.cursor.execute(CREAT_TABLE_SALE)
+        self.cursor.execute(CREAT_TABLE_REFUND)
+
+    def insert_new_book(self):
+        args = ['12','关于建设双一流高校','罗俊','中山大学出版社','18']
+        self.change(INSERT_NEW_BOOK, args)
+        pass
 
     def purchase_book(self):
         #   库存表修改
-        query = "insert into book values(%s, %s, %s)"
-        args = ['2','罗俊2','19']
-        self.change(query, args)
-        # #   进货表修改
-        # query = "insert"
-        # args = []
-        # self.change(query, args)
+        # args = ['2','罗俊2','19']
+        # self.change(, args)
+        pass
 
     def return_book(self):
         #   销售表查询
