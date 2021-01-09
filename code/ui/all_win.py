@@ -94,7 +94,7 @@ class WinTuihuo(QDialog):
         self.win_tuihuo.xiaoshou_table.setSelectionBehavior(1)
         make_middle(self.win_tuihuo.xiaoshou_table, [1])
         self.win_tuihuo.xiaoshou_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        # refresh_all_in_table(self.win_tuihuo.xiaoshou_table, self.get_book_table_sql())
+        refresh_all_in_table(self.win_tuihuo.xiaoshou_table, self.get_book_table_sql())
 
     def init_tuihuo_table(self):
         self.win_tuihuo.tuihuo_table.setSelectionBehavior(1)
@@ -104,10 +104,11 @@ class WinTuihuo(QDialog):
         self.win_tuihuo.tuihuo_table.horizontalHeader().resizeSection(2, 120)
 
     def xiaoshou_table_event(self):
-        selected_item = get_selected_items_in_table(self.win_tongji.zonglan_table, 1)
-        tmp = self.get_tuihuo_table_after_select_xiaoshou_table_sql(selected_item[0][0])
+        selected_item = get_selected_items_in_table(self.win_tuihuo.xiaoshou_table, 1)
+        tmp = self.get_tuihuo_table_after_select_xiaoshou_table_sql(selected_item)
         refresh_all_in_table(self.win_tuihuo.tuihuo_table, tmp)
-        make_middle(self.win_tongji.paihangbang_table)
+        make_middle(self.win_tuihuo.tuihuo_table)
+        self.deal_with_tuihuo_items_sql(tmp)
 
     def tuihuo_table_tuihuo_btn_event(self):
         items_lst = get_all_items_in_table(self.win_tuihuo.tuihuo_table)

@@ -84,7 +84,7 @@ def get_all_items_in_table(table: QTableWidget):
         item_lst = []
         for _j in range(col_num):
             item_lst.append(table.item(_i, _j).text())
-        items_lst.append(tuple(items_lst))
+        items_lst.append(tuple(item_lst))
 
     return items_lst
 

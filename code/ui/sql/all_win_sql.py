@@ -32,6 +32,16 @@ class WinTuihuoSQL(WinTuihuo):
     def add_tuihuo_books_to_book_table_sql(self, lst) -> tuple:
         pass
 
+    def get_book_table_sql(self) -> tuple:
+        return tuple_to_str_list(self.library.show_saleid())
+
+
+    def get_tuihuo_table_after_select_xiaoshou_table_sql(self, lst) -> tuple:
+        sale_id = lst[0][0]
+        return tuple_to_str_list(self.library.show_inf_by_sale_id(sale_id))
+
+    def deal_with_tuihuo_items_sql(self, lst):
+        pass
 
 class WinTongjiSQL(WinTongji):
     def __init__(self, library):

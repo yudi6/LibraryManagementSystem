@@ -17,9 +17,11 @@ SHOW_INF_BY_BOOK_NAME="""select BookID, supplierID, price
 from book natural join supplierPrice 
 where book.BookName = %s;"""
 
+SHOW_ALL_SALEID = """select saleID from sale;"""
+
 SHOW_SALE_BY_SALEID ="""select sale.BookID, BookName, Amount 
 from book, sale 
-where book.BookID = sale.BookID and sale.ID = %s;"""
+where book.BookID = sale.BookID and sale.saleID = %s;"""
 
 SHOW_ALL_SALE = """select sellTime, sale.BookID, book.BookName, storehouse.Price,  sale.Amount 
 from book, sale , storehouse 

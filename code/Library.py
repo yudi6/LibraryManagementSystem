@@ -54,34 +54,8 @@ class Library(PyMySQL):
         self.cursor.callproc('SaleBook', line)
         self.conn.commit()
 
-    def insert_new_book(self):
-        args = ['12','关于建设双一流高校','罗俊','中山大学出版社','18']
-        self.change(INSERT_NEW_BOOK, args)
-        pass
+    def show_saleid(self):
+        return self.search(SHOW_ALL_SALEID,[])
 
-    def purchase_book(self):
-        pass
-
-    def return_book(self):
-        query = "select"
-        args = []
-        self.change(query, args)
-        query = "update"
-        args = []
-        self.change(query, args)
-        query = "insert"
-        args = []
-        self.change(query, args)
-
-    def sell_book(self):
-        query = "select"
-        args = []
-        self.search(query, args)
-        query = "insert"
-        args = []
-        self.change(query, args)
-        query = "select"
-        args = []
-
-    def statistics(self):
-        pass
+    def show_inf_by_sale_id(self, sale_id):
+        return self.search(SHOW_SALE_BY_SALEID,args=[sale_id,])
