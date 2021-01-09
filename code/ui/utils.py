@@ -63,7 +63,7 @@ def get_selected_items_in_table(table: QTableWidget, col_num: int):
     item_num = len(item_lst)
 
     if item_num == 0:
-        return
+        return []
     row_num = int(item_num / col_num)
     tmp_lst = []
     for _i in range(row_num):
@@ -98,3 +98,18 @@ def add_demo_items_in_table(table: QTableWidget, row, col):
         tmp.append(tuple(tmp2))
     tmp = tuple(tmp)
     add_item_to_table(table, tmp)
+
+
+def make_items_free(table: QTableWidget, col):
+    row_num = table.rowCount()
+
+    for _i in range(row_num):
+        table.item(_i, col).setSelected(True)
+
+def tuple_to_str_list(tuple):
+    str_list = []
+    for line in tuple:
+        str_list.append([str(i) for i in line])
+    return str_list
+
+

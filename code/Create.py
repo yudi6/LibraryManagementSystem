@@ -37,16 +37,17 @@ CREAT_TABLE_STOREHOUSE =  """CREATE TABLE IF NOT EXISTS `storehouse` (
     BookID varchar(8),
     Amount int,
     Price NUMERIC(5,2),
+    PRIMARY KEY (BookID),
     foreign key (BookID) references book(BookID)
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8;"""
 
-CREAT_TABLE_SALE =  """CREATE TABLE IF NOT EXISTS `sale` (
+CREAT_TABLE_SALE = """CREATE TABLE IF NOT EXISTS `sale` (
     SaleID int,
     BookID varchar(8),
     Amount int,
     sellTime int, 
     PRIMARY key (SaleID,BookID),
-    FOREIGN key (BookID) REFERENCES storehouse(BookID)
+    FOREIGN key (BookID) REFERENCES book(BookID)
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8;"""
 
 CREAT_TABLE_REFUND =  """CREATE TABLE IF NOT EXISTS `refund` (
@@ -64,16 +65,18 @@ begin
 end"""
 
 DROP_PROCEDURE_SUPPLY = """DROP PROCEDURE IF EXISTS supply;"""
-CREATE_PROCEDURE_SUPPLY = """CREATE PROCEDURE supply(in BookID varchar(8), in Price numeric(5,2), in Amount int) 
+CREATE_PROCEDURE_SUPPLY = """CREATE PROCEDURE supply(in BookID_IN varchar(8),
+                        in Price_IN numeric(5,2),
+                        in Amount_IN int) 
 BEGIN 
     declare temp varchar(8);
-    SELECT BookID into temp from storehouse;
+    SELECT distinct storehouse.BookID into temp from storehouse WHERE storehouse.BookID = BookID_IN;
     if temp is null then
         INSERT INTO storehouse values(BookID,Price,Amount);
     else
         UPDATE storehouse
-        set storehouse.Amount = storehouse.Amount + Amount
-        WHERE storehouse.BookID = BookID;
+        set storehouse.Amount = storehouse.Amount + Amount_IN
+        WHERE storehouse.BookID = BookID_IN;
     end if;
 END"""
 
@@ -103,13 +106,13 @@ BEGIN
     WHERE sale.SaleID = SaleID and sale.BookID = BookID;
 END"""
 
-DROP_PROCEDURE_SELECT_BOOK = """DROP PROCEDURE IF EXISTS selectBook;"""
-CREATE_PROCEDURE_SELECT_BOOK = """create procedure selectBook(in bookname varchar(40))
-begin
-    select BookID, supplierID, price, amount 
-    from book, supplierPrice 
-    where book.BookID = supplierPrice.BookID and book.BookName = bookname;
-end"""
+# DROP_PROCEDURE_SELECT_BOOK = """DROP PROCEDURE IF EXISTS selectBook;"""
+# CREATE_PROCEDURE_SELECT_BOOK = """create procedure selectBook(in bookname varchar(40))
+# begin
+#     select BookID, supplierID, price, amount
+#     from book, supplierPrice
+#     where book.BookID = supplierPrice.BookID and book.BookName = bookname;
+# end"""
 
 DROP_TRIGGER_TR_AFTER_IN_REFUND = """DROP TRIGGER IF EXISTS tr_after_in_refund;"""
 CREATE_TRIGGER_TR_AFTER_IN_REFUND = """CREATE TRIGGER tr_after_in_refund

@@ -37,8 +37,22 @@ class Library(PyMySQL):
         self.cursor.execute(CREATE_PROCEDURE_GET_SUPPLIER)
         self.cursor.execute(DROP_PROCEDURE_SALEBOOK)
         self.cursor.execute(CREATE_PROCEDURE_SALEBOOK)
-        self.cursor.execute(DROP_PROCEDURE_SELECT_BOOK)
-        self.cursor.execute(CREATE_PROCEDURE_SELECT_BOOK)
+
+    def get_inf_by_name(self, name):
+        args = [name,]
+        return self.search(SHOW_INF_BY_BOOK_NAME, args)
+
+    def call_supply(self, line):
+        self.cursor.callproc('supply', line)
+        self.conn.commit()
+
+    def get_store(self):
+        args = []
+        return self.search(SHOW_STORE,[])
+
+    def call_sale_book(self, line):
+        self.cursor.callproc('SaleBook', line)
+        self.conn.commit()
 
     def insert_new_book(self):
         args = ['12','关于建设双一流高校','罗俊','中山大学出版社','18']
