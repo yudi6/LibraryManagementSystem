@@ -1,16 +1,16 @@
-from sql.all_win_sql import *
+from ui.sql.all_win_sql import *
 from PyQt5.QtWidgets import QApplication
 import sys
 
 
 class UI(object):
-    def __init__(self):
+    def __init__(self, library):
         self.app = QApplication(sys.argv)
-        self.win_main = WinMain()
-        self.win_jinhuo = WinJinhuo()
-        self.win_tuihuo = WinTuihuo()
-        self.win_tongji = WinTongji()
-        self.win_xiaoshou = WinXiaoshou()
+        self.win_main = WinMainSQL(library)
+        self.win_jinhuo = WinJinhuoSQL(library)
+        self.win_tuihuo = WinTuihuoSQL(library)
+        self.win_tongji = WinTongjiSQL(library)
+        self.win_xiaoshou = WinXiaoshouSQL(library)
 
         btn1 = self.win_main.win_main.btn_jinhuo
         btn1.clicked.connect(self.win_jinhuo.show)
@@ -25,6 +25,7 @@ class UI(object):
         btn4.clicked.connect(self.win_xiaoshou.show)
 
         self.win_main.show()
+        self.exit()
 
     def exit(self):
         sys.exit(self.app.exec_())

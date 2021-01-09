@@ -1,10 +1,10 @@
 import sys
-from win_ui.win_main import Ui_MainWindow
-from win_ui.win_jinhuo import Ui_win_jinhuo
-from win_ui.win_tuihuo import Ui_win_tuihuo
-from win_ui.win_tongji import Ui_win_tongji
-from win_ui.win_xiaoshou import Ui_win_xiaoshou
-from utils import *
+from ui.win_ui.win_main import Ui_MainWindow
+from ui.win_ui.win_jinhuo import Ui_win_jinhuo
+from ui.win_ui.win_tuihuo import Ui_win_tuihuo
+from ui.win_ui.win_tongji import Ui_win_tongji
+from ui.win_ui.win_xiaoshou import Ui_win_xiaoshou
+from ui.utils import *
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QAbstractItemView
 from PyQt5.QtGui import QPalette, QBrush, QPixmap
 
@@ -49,7 +49,7 @@ class WinJinhuo(QDialog):
         self.win_jinhuo.book_table.horizontalHeader().resizeSection(0, 70)
         self.win_jinhuo.book_table.horizontalHeader().resizeSection(1, 160)
         self.win_jinhuo.book_table.horizontalHeader().resizeSection(2, 20)
-        refresh_all_in_table(self.win_jinhuo.book_table, self.get_book_table_sql())
+        # refresh_all_in_table(self.win_jinhuo.book_table, self.get_book_table_sql())
 
     def book_name_btn_event(self):
         data = self.get_book_name_sql(self.win_jinhuo.input_win_name.toPlainText())
@@ -91,7 +91,7 @@ class WinTuihuo(QDialog):
         self.win_tuihuo.book_table.horizontalHeader().resizeSection(0, 70)
         self.win_tuihuo.book_table.horizontalHeader().resizeSection(1, 160)
         self.win_tuihuo.book_table.horizontalHeader().resizeSection(2, 20)
-        refresh_all_in_table(self.win_tuihuo.book_table, self.get_book_table_sql())
+        # refresh_all_in_table(self.win_tuihuo.book_table, self.get_book_table_sql())
 
     def init_tuihuo_table(self):
         self.win_tuihuo.tuihuo_table.setSelectionBehavior(1)
@@ -149,7 +149,7 @@ class WinTongji(QDialog):
         self.win_tongji.zonglan_table.horizontalHeader().resizeSection(0, 100)
         self.win_tongji.zonglan_table.horizontalHeader().resizeSection(1, 100)
         self.win_tongji.zonglan_table.horizontalHeader().resizeSection(2, 50)
-        refresh_all_in_table(self.win_tongji.zonglan_table, self.get_tongji_table_sql())
+        # refresh_all_in_table(self.win_tongji.zonglan_table, self.get_tongji_table_sql())
 
     def init_paihangbang_table(self):
         self.win_tongji.paihangbang_table.setSelectionBehavior(1)
@@ -191,7 +191,7 @@ class WinXiaoshou(QDialog):
         self.win_xiaoshou.book_table.horizontalHeader().resizeSection(0, 70)
         self.win_xiaoshou.book_table.horizontalHeader().resizeSection(1, 130)
         self.win_xiaoshou.book_table.horizontalHeader().resizeSection(2, 40)
-        refresh_all_in_table(self.win_tuihuo.book_table, self.get_book_table_sql())
+        # refresh_all_in_table(self.win_tuihuo.book_table, self.get_book_table_sql())
 
     def init_xiaoshou_table(self):
         self.win_xiaoshou.xiaoshou_table.setSelectionBehavior(1)
