@@ -46,40 +46,28 @@ class Library(PyMySQL):
         pass
 
     def purchase_book(self):
-        #   库存表修改
-        # args = ['2','罗俊2','19']
-        # self.change(, args)
         pass
 
     def return_book(self):
-        #   销售表查询
         query = "select"
         args = []
         self.change(query, args)
-        #   库存表修改
         query = "update"
         args = []
         self.change(query, args)
-        #   退货表修改
         query = "insert"
         args = []
         self.change(query, args)
 
     def sell_book(self):
-        #   库存表查询
         query = "select"
         args = []
         self.search(query, args)
-        #   库存表修改
         query = "insert"
         args = []
         self.change(query, args)
-        #   销售表修改
         query = "select"
         args = []
 
     def statistics(self):
-        #   销售表查询
-
-        #   输出结果
         pass

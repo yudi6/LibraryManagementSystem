@@ -22,7 +22,7 @@ CREAT_TABLE_SUPPLIER_PRICE =  """CREATE TABLE IF NOT EXISTS `supplierPrice` (
     primary key (supplierID,BookID),
     FOREIGN key (supplierID) REFERENCES supplier(supplierID),
     FOREIGN key (BookID) REFERENCES book(BookID)
-)NGINE=InnoDB  DEFAULT CHARSET=utf8;"""
+)ENGINE=InnoDB  DEFAULT CHARSET=utf8;"""
 
 # CREAT_TABLE_SUPPLY_LIST =  """CREATE TABLE IF NOT EXISTS `supplyList` (
 #     supplierID varchar(8),
@@ -103,7 +103,7 @@ BEGIN
     WHERE sale.SaleID = SaleID and sale.BookID = BookID;
 END"""
 
-DROP_PROCEDURE_SELECT_BOOK = """DROP PROCEDURE IF EXISTS RefundBook;"""
+DROP_PROCEDURE_SELECT_BOOK = """DROP PROCEDURE IF EXISTS selectBook;"""
 CREATE_PROCEDURE_SELECT_BOOK = """create procedure selectBook(in bookname varchar(40))
 begin
     select BookID, supplierID, price, amount 
