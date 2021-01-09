@@ -19,7 +19,7 @@ SHOW_INF_BY_BOOK_NAME="""select BookID, supplierID, price
 from book natural join supplierPrice 
 where book.BookName = %s;"""
 
-SHOW_ALL_SALEID = """select sale.saleID
+SHOW_ALL_SALEID = """select distinct sale.saleID
 from sale
 WHERE saleID not in (select * from refund);"""
 
