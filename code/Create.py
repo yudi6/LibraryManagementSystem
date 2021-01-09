@@ -46,14 +46,14 @@ CREAT_TABLE_SALE = """CREATE TABLE IF NOT EXISTS `sale` (
     BookID varchar(8),
     Amount int,
     sellTime int, 
+    saleSum NUMERIC(10,2),
     PRIMARY key (SaleID,BookID),
     FOREIGN key (BookID) REFERENCES book(BookID)
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8;"""
 
 CREAT_TABLE_REFUND =  """CREATE TABLE IF NOT EXISTS `refund` (
     SaleID INT,
-    BookID varchar(8),
-    foreign key (SaleID,BookID) references sale(SaleID,BookID)
+    foreign key (SaleID) references sale(SaleID)
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8;"""
 
 
@@ -85,25 +85,21 @@ CREATE_PROCEDURE_SALEBOOK = """CREATE PROCEDURE SaleBook(  in SaleID int,
                             in BookID varchar(8),
                             in Amount int,
                             in sellTime int)
-BEGIN 
-    INSERT INTO sale values(SaleID, BookID,Amount,sellTime);
+BEGIN
+	declare Price_book numeric(5,2);
+    select Price into Price_book
+    from storehouse
+    where BookID = storehouse.BookID;
+    INSERT INTO sale values(SaleID, BookID, Amount, sellTime, Price_book*Amount);
 END"""
 
 DROP_PROCEDURE_REFUNDBOOK = """DROP PROCEDURE IF EXISTS RefundBook;"""
-CREATE_PROCEDURE_REFUNDBOOK = """CREATE PROCEDURE RefundBook(in SaleID int, in BookID varchar(8), out status int)
+CREATE_PROCEDURE_REFUNDBOOK = """CREATE PROCEDURE RefundBook(in SaleID_IN int)
 BEGIN 
-    declare bookid varchar(8);
-    declare amount int;
-    SELECT Bookid, Amount into bookid, amount
-    from sale 
-    where sale.SaleID = SaleID and sale.BookID = BookID;
-    if isnull(bookid) then
-        set status = 1;
-    else set status = 0;
+    if SaleID_IN not in (SELECT refund.SaleID
+    from refund) then
+         INSERT INTO refund values(SaleID_IN);
     end if;
-    INSERT INTO refund values(SaleID,BookID);
-    DELETE FROM sale 
-    WHERE sale.SaleID = SaleID and sale.BookID = BookID;
 END"""
 
 # DROP_PROCEDURE_SELECT_BOOK = """DROP PROCEDURE IF EXISTS selectBook;"""
@@ -115,18 +111,14 @@ END"""
 # end"""
 
 DROP_TRIGGER_TR_AFTER_IN_REFUND = """DROP TRIGGER IF EXISTS tr_after_in_refund;"""
-CREATE_TRIGGER_TR_AFTER_IN_REFUND = """CREATE TRIGGER tr_after_in_refund
-    AFTER INSERT on refund
+CREATE_TRIGGER_TR_AFTER_IN_REFUND = """CREATE TRIGGER tr_after_in_refund AFTER INSERT on refund
     for each row
     BEGIN 
-        declare bookid varchar(8);
-        declare amount int;
-        SELECT BookID, Amount into bookid, amount
-        from sale
-        where sale.SaleID = new.SaleID and sale.BookID = new.BookID;
-        update storehouse
-        set storehouse.Amount = storehouse.Amount + amount
-        where storehouse.BookID = bookid;
+        update storehouse, (SELECT BookID, Amount 
+			from sale
+			where sale.SaleID = new.SaleID) as bookid_amount
+        set storehouse.Amount = storehouse.Amount + bookid_amount.Amount
+        where storehouse.BookID = bookid_amount.BookID;
     END"""
 
 DROP_TRIGGER_TR_AFTER_IN_SALE= """DROP TRIGGER IF EXISTS tr_after_in_sale;"""

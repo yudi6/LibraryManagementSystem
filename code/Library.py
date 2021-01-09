@@ -54,8 +54,18 @@ class Library(PyMySQL):
         self.cursor.callproc('SaleBook', line)
         self.conn.commit()
 
+    def call_RefundBook(self, saleID):
+        self.cursor.callproc('RefundBook',[saleID,])
+        self.conn.commit()
+
     def show_saleid(self):
         return self.search(SHOW_ALL_SALEID,[])
 
     def show_inf_by_sale_id(self, sale_id):
         return self.search(SHOW_SALE_BY_SALEID,args=[sale_id,])
+
+    def show_month(self):
+        return self.search(SHOW_MOUTH_DATA,[])
+
+    def show_fuck(self,ym):
+        return self.search(SHOW_FUCK_DATA,[ym,])

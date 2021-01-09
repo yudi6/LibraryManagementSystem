@@ -41,7 +41,10 @@ class WinTuihuoSQL(WinTuihuo):
         return tuple_to_str_list(self.library.show_inf_by_sale_id(sale_id))
 
     def deal_with_tuihuo_items_sql(self, lst):
-        pass
+        self.library.call_RefundBook(lst[0][0])
+
+
+
 
 class WinTongjiSQL(WinTongji):
     def __init__(self, library):
@@ -49,10 +52,10 @@ class WinTongjiSQL(WinTongji):
         WinTongji.__init__(self, library)
 
     def get_tongji_table_sql(self) -> tuple:
-        pass
+        return tuple_to_str_list(self.library.show_month())
 
     def get_paihangbang_by_ym(self, ym: str) -> tuple:
-        pass
+        return tuple_to_str_list(self.library.show_fuck(ym))
 
 
 class WinXiaoshouSQL(WinXiaoshou):

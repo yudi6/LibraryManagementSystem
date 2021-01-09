@@ -108,10 +108,10 @@ class WinTuihuo(QDialog):
         tmp = self.get_tuihuo_table_after_select_xiaoshou_table_sql(selected_item)
         refresh_all_in_table(self.win_tuihuo.tuihuo_table, tmp)
         make_middle(self.win_tuihuo.tuihuo_table)
-        self.deal_with_tuihuo_items_sql(tmp)
+        # self.deal_with_tuihuo_items_sql(selected_item)
 
     def tuihuo_table_tuihuo_btn_event(self):
-        items_lst = get_all_items_in_table(self.win_tuihuo.tuihuo_table)
+        items_lst = get_selected_items_in_table(self.win_tuihuo.xiaoshou_table, 1)
         if items_lst == [] or items_lst is None:
             return
         self.deal_with_tuihuo_items_sql(items_lst)
@@ -142,7 +142,7 @@ class WinTongji(QDialog):
         self.win_tongji.zonglan_table.horizontalHeader().resizeSection(0, 100)
         self.win_tongji.zonglan_table.horizontalHeader().resizeSection(1, 100)
         self.win_tongji.zonglan_table.horizontalHeader().resizeSection(2, 50)
-        # refresh_all_in_table(self.win_tongji.zonglan_table, self.get_tongji_table_sql())
+        refresh_all_in_table(self.win_tongji.zonglan_table, self.get_tongji_table_sql())
 
     def init_paihangbang_table(self):
         self.win_tongji.paihangbang_table.setSelectionBehavior(1)

@@ -13,11 +13,15 @@ VALUES (%s, %s, %s, %s);"""
 INSERT_NEW_BOOK_INTO_STORE ="""INSERT INTO storehouse(BookID,Price,Amount)
 VALUES (%s, %s, %s)"""
 
+INSERT_REFUND = """INSERT INTO refund values(%s);"""
+
 SHOW_INF_BY_BOOK_NAME="""select BookID, supplierID, price
 from book natural join supplierPrice 
 where book.BookName = %s;"""
 
-SHOW_ALL_SALEID = """select saleID from sale;"""
+SHOW_ALL_SALEID = """select sale.saleID
+from sale
+WHERE saleID not in (select * from refund);"""
 
 SHOW_SALE_BY_SALEID ="""select sale.BookID, BookName, Amount 
 from book, sale 
@@ -29,3 +33,13 @@ where book.BookID = sale.BookID and sale.BookID = storehouse.BookID;"""
 
 SHOW_STORE = """select s.bookid,b.bookname,s.amount
 from book b natural join storehouse s;"""
+
+SHOW_MOUTH_DATA = """select from_unixtime(sellTime, '%%Y-%%M'), sum(Amount),sum(saleSum)
+from sale
+group by from_unixtime(sellTime, '%%Y-%%M');"""
+
+SHOW_FUCK_DATA = """select bookid, sum(Amount), sum(saleSum)
+from sale
+where from_unixtime(sellTime, '%%Y-%%M')= %s
+group by bookid
+order by sum(saleSum) desc;"""
