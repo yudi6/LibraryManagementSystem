@@ -112,4 +112,3 @@ def tuple_to_str_list(tuple):
         str_list.append([str(i) for i in line])
     return str_list
 
-
