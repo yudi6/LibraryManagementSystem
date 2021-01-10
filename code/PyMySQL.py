@@ -2,7 +2,7 @@ import pymysql
 import traceback
 class PyMySQL(object):
     def __init__(self, host, user, pwd):
-        self.conn = pymysql.Connect(host, user, pwd, charset='utf8')
+        self.conn = pymysql.Connect(host=host, user=user, passwd=pwd, charset='utf8')
         self.cursor = self.conn.cursor()
 
     def change(self, query, args):
